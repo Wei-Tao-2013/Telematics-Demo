@@ -1,0 +1,63 @@
+# Welcome to Serverless!
+#
+# This file is the main config file for your service.
+# It's very minimal at this point and uses default values.
+# You can always add more config options for more control.
+# We've included some commented out config examples here.
+# Just uncomment any of them to get that config option.
+#
+# For full config options, check the docs:
+#    docs.serverless.com
+#
+# Happy Coding!
+
+service: ctrack
+# app and org for use with dashboard.serverless.com
+app: ctrack
+org: taowei
+
+# You can pin your service to only deploy with a specific Serverless version
+# Check out our docs for more details
+# frameworkVersion: "=X.X.X"
+
+provider:
+  name: aws
+  runtime: nodejs10.x
+
+# you can overwrite defaults here
+  stage: dev
+  region: ap-southeast-2
+
+plugins:
+  - serverless-offline
+functions:
+  fetchToken:
+    handler: handler.fetchToken
+    events:
+      - http:
+          path: ctrack/token
+          method: get
+          cors: true
+          integration: lambda
+    description: This is lambda function call ctrack token for a user account
+    name: fetchToken
+    environment:
+      CTRACK_URL: #######
+      PASSWORD: #######
+      USER_NAME: #######
+  getVehicles:
+    handler: vehicles.getVehicles
+    events:
+      - http:
+          path: ctrack/vehicles
+          method: get
+          cors: true
+          integration: lambda
+    description: This is lambda function call ctrack token for vehicles info
+    name: getVehicles
+
+#    Define function environment variables here
+    environment:
+      CTRACK_URL: #########
+      PASSWORD: ######
+      USER_NAME: #######
